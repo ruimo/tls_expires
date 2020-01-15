@@ -14,11 +14,7 @@ const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
 fn main() {
     let args: arg::Args = arg::parse_arg();
-//    if args.show_version {
-//        println!("{}", VERSION);
-//    } else {
-        show_expiration(&(args.host_name + ":443"));
-//    }
+    show_expiration(&(args.host_name + ":443"));
 }
 
 fn show_expiration(host_name: &str) {
