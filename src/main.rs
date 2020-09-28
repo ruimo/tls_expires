@@ -14,11 +14,11 @@ const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
 fn main() {
     let args: arg::Args = arg::parse_arg();
-    show_expiration(&(args.host_name + ":443"));
+    show_expiration(&(args.host_name + ":443"), &(args.server_name));
 }
 
-fn show_expiration(host_name: &str) {
-    let inp = obtain_expiration(host_name);
+fn show_expiration(host_name: &str, server_name: &Option<String>) {
+    let inp = obtain_expiration(host_name, server_name);
     let pos = inp.rfind(' ').unwrap();
     let (time_str, tz_str) = inp.split_at(pos);
     let tz: Tz = tz_str.trim_start().parse().unwrap();
@@ -32,13 +32,15 @@ fn show_expiration(host_name: &str) {
     println!("{}", dt.with_timezone(&local_tz).to_rfc3339());
 }
 
-fn obtain_expiration(host_name: &str) -> String {
+fn obtain_expiration(host_name: &str, server_name: &Option<String>) -> String {
     let open_ssl_error = "Cannot exec openssl. Check installation.";
+    let sn = server_name.as_ref().map(|s| vec!["-servername".to_string(), s.to_string()]).unwrap_or(vec![]);
 
     let out = Command::new("openssl")
         .arg("s_client")
         .arg("-connect")
         .arg(host_name)
+        .args(&sn)
         .stdin(Stdio::null())
         .output()
         .expect(open_ssl_error)
