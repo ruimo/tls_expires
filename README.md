@@ -12,11 +12,16 @@ Install openssl.
         tls_expires <host_name>
     
     FLAGS:
-        -h, --help       Prints help information
-        -V, --version    Prints version information
+        -servername hostname Bypass host name (see below for details)
+        -h, --help           Prints help information
+        -V, --version        Prints version information
     
     ARGS:
         <host_name>    Host name to check the TLS expiration. Ex: www.ruimo.com
+
+### Bypass host name
+
+If your server is behind CDN, it ends up simply checking the CDN provided TLS certficate. Assume your canonical host name is www.yourserver.com and your server's host name is yourserver.yourcloud.com. If you run `tls_expires www.yourserver.com`, it checks the CDN provided TLS certificate. If you run `tls_expires yourserver.yourcloud.com --servername www.yourserver.com`, it checks your server's TLS certifcate instead.
 
 ## How to check the expiration date.
 
