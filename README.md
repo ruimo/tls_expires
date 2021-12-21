@@ -43,5 +43,5 @@ The following shows an example to check the TLS expiration.
 ## Binary
 
 Linux(x86_64):
-[0.1.0-SNAPSHOT](http://static.ruimo.com/release/tls_expires/0.1.0-SNAPSHOT/tls_expires)
+https://github.com/ruimo/tls_expires/releases
 
